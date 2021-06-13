@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <title>Titanic Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <section class="container">
+        <header>
+            <h1 align="center">Prediccion Titanic Survived</h1>
+        </header>
+
+        <div class="card">
+            <h5 class="card-header">Demo de un modelo predictivo</h5>
+            <div class="card-body">
+                <div class="message alert alert-info alert-dismissible fade show" role="alert">
+                    Llene todos los campos
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="predecir">
+                    <div class="form-group">
+                        <label for="input_clase">Clase</label>
+                        <select class="form-control" id="input_clase" name="input_clase">
+                            <option value="1">Clase 1</option>
+                            <option value="2">Clase 2</option>
+                            <option value="3">Clase 3</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="input_sexo" id="radio1" value="female" checked>
+                            <label class="form-check-label" for="radio1">Femenino</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="input_sexo" id="radio2" value="male">
+                            <label class="form-check-label" for="exampleRadios2">Masculino</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input_edad">Edad</label>
+                        <input type="number" min="0" max="74" class="form-control" name="input_edad" id="input_edad" placeholder="Edad">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predecir</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+    var form = document.querySelector("form");
+    
+    form.addEventListener("submit", function(event){
+        event.preventDefault();
+        axios.post('/predecir',
+        {
+            "input_clase": form.querySelector("#input_clase").value,
+            "input_sexo": form.querySelector("input[name=input_sexo]").value,
+            "input_edad": form.querySelector("#input_edad").value
+        }).then(function (response) {
+            console.log(response);
+            document.querySelector(".message").innerHTML = response.data;
+        }).catch(function (error) {
+            console.log(error);
+        })
+    });
+</script>

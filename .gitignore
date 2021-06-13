@@ -1,0 +1,8 @@
+mientorno
+assets
+*.pyc
+.DS_Store
+.env
+*.ipynb
+*.csv
+.ipynb_checkpoints
